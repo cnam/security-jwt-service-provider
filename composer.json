@@ -11,7 +11,7 @@
   "autoload": {
     "psr-4" : {
       "Silex\\Provider\\" : "src/Silex/Provider/",
-      "Silex\\Component\\Security\\Http" : "src/Silex/Component/Security/Http/"
+      "Silex\\Component\\Security\\Http\\" : "src/Silex/Component/Security/Http/"
     }
   },
   "require": {
