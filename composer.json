@@ -1,0 +1,22 @@
+{
+  "name" : "cnam/SecurityJWTServiceProvider",
+  "description" : "Service Provider for usage jwt token for auth",
+  "minimum-stability": "beta",
+  "authors": [
+    {
+      "name": "Anton Popov",
+      "email": "cnam812@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4" : {
+      "Silex\\Provider\\" : "src/Silex/Provider/",
+      "Silex\\Component\\Security\\Http" : "src/Silex/Component/Security/Http/"
+    }
+  },
+  "require": {
+    "pimple/pimple": "3.0.*",
+    "firebase/php-jwt": "1.0.0",
+    "symfony/security": "~2.4"
+  }
+}
