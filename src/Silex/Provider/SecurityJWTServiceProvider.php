@@ -14,9 +14,11 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
 
     public function register(Container $app)
     {
-        $app['security.jwt'] = array(
-            'secret_key' => 'default_secret_key'
-        );
+        if (!isset($app['security.jwt'])) {
+            $app['security.jwt'] = array(
+                'secret_key' => 'default_secret_key'
+            );
+        }
 
         $app['security.authentication.success_handler.secured'] = function () use ($app) {
             return new Authentication\AuthenticationSuccessHandler($app['security.http_utils'], []);
