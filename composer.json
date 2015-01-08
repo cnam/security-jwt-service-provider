@@ -1,5 +1,5 @@
 {
-  "name" : "cnam/SecurityJWTServiceProvider",
+  "name" : "cnam/security-jwt-service-provider",
   "description" : "Service Provider for usage jwt token for auth",
   "minimum-stability": "beta",
   "authors": [
