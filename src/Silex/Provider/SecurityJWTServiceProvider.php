@@ -14,6 +14,8 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
 
     public function register(Container $app)
     {
+        $app['security.jwt']['secret_key'] = 'default_secret_key';
+
         $app['security.authentication.success_handler.secured'] = function () use ($app) {
             return new Authentication\AuthenticationSuccessHandler($app['security.http_utils'], []);
         };
@@ -29,7 +31,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
 
         $app['security.authentication_listener.factory.jwt'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_listener.'.$name.'.jwt'] = function() use ($app) {
-                return new JWTListener($app['security'], $app['security.authentication_manager']);
+                return new JWTListener($app['security'], $app['security.authentication_manager'], $app['security.jwt.secret_token']);
             };
 
             $app['security.authentication_provider.' . $name . '.jwt'] = function() use ($app) {

@@ -14,11 +14,13 @@ class JWTListener implements ListenerInterface {
 
     protected $securityContext;
     protected $authenticationManager;
+    protected $secretKey;
 
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager, $secretKey)
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
+        $this->secretKey = $secretKey;
     }
 
     /**
@@ -33,7 +35,7 @@ class JWTListener implements ListenerInterface {
 
         if (!empty($requestToken)) {
             try {
-                $decoded = \JWT::decode($requestToken, 'very_secret_token');
+                $decoded = \JWT::decode($requestToken, $this->secretKey);
 
                 $token = new JWTToken();
                 $token->setUser($decoded->name);
