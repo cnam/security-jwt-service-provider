@@ -44,7 +44,7 @@ class JWTListener implements ListenerInterface {
                 $this->securityContext->setToken($authToken);
 
                 return;
-                
+
             } catch (\UnexpectedValueException $e) {
 
             } catch (AuthenticationException $e) {
