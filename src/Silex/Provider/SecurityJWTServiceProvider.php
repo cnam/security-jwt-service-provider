@@ -33,7 +33,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
 
         $app['security.authentication_listener.factory.jwt'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_listener.'.$name.'.jwt'] = function() use ($app) {
-                return new JWTListener($app['security'], $app['security.authentication_manager'], $app['security.jwt']['secret_token']);
+                return new JWTListener($app['security'], $app['security.authentication_manager'], $app['security.jwt']['secret_key']);
             };
 
             $app['security.authentication_provider.' . $name . '.jwt'] = function() use ($app) {
