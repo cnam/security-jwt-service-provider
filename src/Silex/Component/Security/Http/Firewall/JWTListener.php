@@ -53,7 +53,7 @@ class JWTListener implements ListenerInterface {
         }
 
         $response = new Response();
-        $response->setStatusCode(Response::HTTP_FORBIDDEN);
+        $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
         $event->setResponse($response);
     }
 }
