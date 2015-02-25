@@ -2,7 +2,7 @@
 
 namespace Silex\Component\Security\Core\Encoder;
 
-use HttpEncodingException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class JWTEncoder implements TokenEncoderInterface
 {
@@ -47,20 +47,20 @@ class JWTEncoder implements TokenEncoderInterface
      * @param string $token
      * @return array
      *
-     * @throws HttpEncodingException
+     * @throws AccessDeniedException
      */
     public function decode($token)
     {
         try {
             $data = \JWT::decode($token, $this->secretKey, true);
         } catch (\UnexpectedValueException $e) {
-            throw new HttpEncodingException();
+            throw new AccessDeniedException();
         } catch (\DomainException $e) {
-            throw new HttpEncodingException();
+            throw new AccessDeniedException();
         }
 
-        if ($data['exp'] < time()) {
-            throw new HttpEncodingException('token not allowed');
+        if ($data->exp < time()) {
+            throw new AccessDeniedException('token not allowed');
         }
 
         return $data;

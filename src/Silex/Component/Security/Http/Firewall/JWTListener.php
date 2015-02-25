@@ -8,6 +8,7 @@ use Silex\Component\Security\Http\Token\JWTToken;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
@@ -68,7 +69,7 @@ class JWTListener implements ListenerInterface {
                 return;
 
             } catch (HttpEncodingException $e) {
-            } catch (AuthenticationException $e) {
+            } catch (AccessDeniedException $e) {
             }
         }
 

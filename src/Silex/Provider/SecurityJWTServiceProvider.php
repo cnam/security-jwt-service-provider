@@ -15,16 +15,16 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
 
     public function register(Container $app)
     {
-        $app['security.jwt'] = array_merge($app['security.jwt'], [
+        $app['security.jwt'] = array_merge([
             'secret_key' => 'default_secret_key',
             'life_time' => 86400,
             'options' => [
                 'header_name' => 'SECURITY_TOKEN_HEADER'
             ]
-        ]);
+        ], $app['security.jwt']);
 
-        $app['security.encode.jwt'] = function() use ($app) {
-            return new JWTEncoder($app['secret_key'], $app['life_time']);
+        $app['security.jwt.encoder'] = function() use ($app) {
+            return new JWTEncoder($app['security.jwt']['secret_key'], $app['security.jwt']['life_time']);
         };
 
         $app['security.authentication.success_handler.secured'] = function () use ($app) {
@@ -42,10 +42,10 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         /**
          * Class for usage custom listeners
          */
-        $app['security.authentication_listener.jwt._proto'] = function() use ($app) {
+        $app['security.jwt.authentication_listener'] = function() use ($app) {
             return new JWTListener($app['security'],
                 $app['security.authentication_manager'],
-                $app['security.encode.jwt'],
+                $app['security.jwt.encoder'],
                 $app['security.jwt']['options']
             );
         };
@@ -53,16 +53,16 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         /**
          * Class for usage custom user provider
          */
-        $app['security.authentication_provider.jwt._proto'] = function() use ($app) {
+        $app['security.jwt.authentication_provider'] = function() use ($app) {
             return new JWTProvider($app['users']);
         };
 
         $app['security.authentication_listener.factory.jwt'] = $app->protect(function ($name, $options) use ($app) {
             $app['security.authentication_listener.'.$name.'.jwt'] = function() use ($app){
-                return $app['security.authentication_listener.jwt._proto'];
+                return $app['security.jwt.authentication_listener'];
             };
             $app['security.authentication_provider.' . $name . '.jwt'] = function() use ($app){
-                return $app['security.authentication_provider.jwt._proto'];
+                return $app['security.jwt.authentication_provider'];
             };
             return array(
                 'security.authentication_provider.'.$name.'.jwt',
