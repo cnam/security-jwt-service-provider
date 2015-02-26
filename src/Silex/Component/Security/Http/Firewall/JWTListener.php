@@ -69,7 +69,7 @@ class JWTListener implements ListenerInterface {
                 return;
 
             } catch (HttpEncodingException $e) {
-            } catch (AccessDeniedException $e) {
+            } catch (\UnexpectedValueException $e) {
             }
         }
 

@@ -54,13 +54,13 @@ class JWTEncoder implements TokenEncoderInterface
         try {
             $data = \JWT::decode($token, $this->secretKey, true);
         } catch (\UnexpectedValueException $e) {
-            throw new AccessDeniedException();
+            throw new \UnexpectedValueException();
         } catch (\DomainException $e) {
-            throw new AccessDeniedException();
+            throw new \UnexpectedValueException();
         }
 
         if ($data->exp < time()) {
-            throw new AccessDeniedException('token not allowed');
+            throw new \UnexpectedValueException('token not allowed');
         }
 
         return $data;
