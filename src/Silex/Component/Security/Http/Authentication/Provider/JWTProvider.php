@@ -7,9 +7,13 @@ use Silex\Component\Security\Http\Token\JWTToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class JWTProvider implements AuthenticationProviderInterface {
 
+    /**
+     * @var UserProviderInterface
+     */
     protected $userProvider;
 
     public function __construct($userProvider)
@@ -28,12 +32,19 @@ class JWTProvider implements AuthenticationProviderInterface {
      */
     public function authenticate(TokenInterface $token)
     {
-        $user = $this->userProvider->loadUserByUsername($token->getUsername());
-        if (null != $user) {
-            $authenticatedToken = new JWTToken();
-            $authenticatedToken->setUser($user);
 
-            return $authenticatedToken;
+        if ($token instanceof JWTToken) {
+            $userName = $token->getTokenContext()->name;
+        } else {
+            $userName = $token->getUsername();
+        }
+
+        $user = $this->userProvider->loadUserByUsername($userName);
+
+        if (null != $user) {
+            $token->setUser($user);
+
+            return $token;
         }
 
         throw new AuthenticationException('JWT auth failed');
