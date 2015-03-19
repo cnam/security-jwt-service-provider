@@ -42,6 +42,10 @@ class JWTProvider implements AuthenticationProviderInterface {
         $user = $this->userProvider->loadUserByUsername($userName);
 
         if (null != $user) {
+            $lastContext = $token->getTokenContext();
+            
+            $token = new JWTToken($user->getRoles());
+            $token->setTokenContext($lastContext);
             $token->setUser($user);
 
             return $token;
