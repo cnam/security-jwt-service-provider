@@ -22,8 +22,7 @@
     "require": {
         "pimple/pimple": "3.0.*",
         "firebase/php-jwt": "1.0.0",
-        "symfony/security": "~2.4",
-        "cnam/jwt-security-service-provider": "0.0.6"
+        "symfony/security": "~2.4"
     },
     "require-dev":{
         "silex/silex": "~2.0@dev"
