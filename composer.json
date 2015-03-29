@@ -1,27 +1,31 @@
 {
-  "name" : "cnam/security-jwt-service-provider",
-  "description" : "Service Provider for usage jwt token for auth",
-  "minimum-stability": "beta",
-  "authors": [
-    {
-      "name": "Anton Popov",
-      "email": "cnam812@gmail.com"
+    "name": "cnam/security-jwt-service-provider",
+    "description": "Service Provider for usage jwt token for auth",
+    "minimum-stability": "beta",
+    "authors": [
+        {
+            "name": "Anton Popov",
+            "email": "cnam812@gmail.com"
+        },
+        {
+            "name": "V",
+            "email": "v.tyubek@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Silex\\Provider\\": "src/Silex/Provider/",
+            "Silex\\Component\\Security\\Http\\": "src/Silex/Component/Security/Http/",
+            "Silex\\Component\\Security\\Core\\": "src/Silex/Component/Security/Core/"
+        }
     },
-    {
-      "name": "V",
-      "email": "v.tyubek@gmail.com"
+    "require": {
+        "pimple/pimple": "3.0.*",
+        "firebase/php-jwt": "1.0.0",
+        "symfony/security": "~2.4",
+        "cnam/jwt-security-service-provider": "0.0.6"
+    },
+    "require-dev":{
+        "silex/silex": "~2.0@dev"
     }
-  ],
-  "autoload": {
-    "psr-4" : {
-      "Silex\\Provider\\" : "src/Silex/Provider/",
-      "Silex\\Component\\Security\\Http\\" : "src/Silex/Component/Security/Http/",
-      "Silex\\Component\\Security\\Core\\" : "src/Silex/Component/Security/Core/"
-    }
-  },
-  "require": {
-    "pimple/pimple": "3.0.*",
-    "firebase/php-jwt": "1.0.0",
-    "symfony/security": "~2.4"
-  }
 }

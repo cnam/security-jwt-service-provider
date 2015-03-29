@@ -1,0 +1,16 @@
+default:
+    formatters:
+        progress: true
+        pretty: true
+    extensions:
+        Behat\JwtApiExtension\ServiceContainer\JwtApiExtension:
+            base_url: http://mockserver.test/
+            secret_key: Very_secret_key
+            header_name: X-Access-Token
+            encoded_field_name: name
+            token_prefix: ''
+            ttl: 86400
+    suites:
+        jwt_suite:
+            paths:    [ %paths.base%/tests/features ]
+            contexts: ['Behat\JwtApiExtension\Context\JwtApiContext']

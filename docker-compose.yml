@@ -1,0 +1,23 @@
+proxy:
+  image: leanlabs/nginx
+  volumes:
+    - "./build/sites-enabled:/etc/nginx/sites-enabled"
+    - "./build/conf.d:/etc/nginx/conf.d"
+  links:
+    - mockserver:mockserver
+  ports:
+    - "80:80"
+
+mockserver:
+  image: leanlabs/php
+  volumes:
+    - "./:/var/www/mockserver"
+  entrypoint: /var/www/mockserver/build/buildmock.sh
+  command: ["php-fpm", "-F"]
+
+mockserverbuilder:
+   image: leanlabs/php-composer
+   volumes:
+    - "./:/var/www/mockserver"
+    - "$HOME/.composer:/root/.composer"
+   working_dir: /var/www/mockserver
