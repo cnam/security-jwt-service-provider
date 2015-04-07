@@ -18,6 +18,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         $app['security.jwt'] = array_merge([
             'secret_key' => 'default_secret_key',
             'life_time' => 86400,
+            'algorithm'  => ['HS256'],
             'options' => [
                 'header_name' => 'SECURITY_TOKEN_HEADER'
             ]
