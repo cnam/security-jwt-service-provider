@@ -21,10 +21,21 @@ class JWTEncoder implements TokenEncoderInterface
      */
     private $lifeTime;
 
-    public function __construct($secretKey, $lifeTime)
+    /**
+     * Allowed algorithms array
+     *
+     * @link https://github.com/firebase/php-jwt#200--2015-04-01
+     * @link http://jwt.io
+     *
+     * @var string
+     */
+    private $allowed_algs;
+
+    public function __construct($secretKey, $lifeTime, $allowed_algs)
     {
         $this->secretKey = $secretKey;
         $this->lifeTime = $lifeTime;
+        $this->allowed_algs = $allowed_algs;
     }
 
     /**
@@ -52,7 +63,7 @@ class JWTEncoder implements TokenEncoderInterface
     public function decode($token)
     {
         try {
-            $data = \JWT::decode($token, $this->secretKey, true);
+            $data = \JWT::decode($token, $this->secretKey, $this->allowed_algs);
         } catch (\UnexpectedValueException $e) {
             throw new \UnexpectedValueException();
         } catch (\DomainException $e) {

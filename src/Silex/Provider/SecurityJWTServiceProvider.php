@@ -24,7 +24,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         ], $app['security.jwt']);
 
         $app['security.jwt.encoder'] = function() use ($app) {
-            return new JWTEncoder($app['security.jwt']['secret_key'], $app['security.jwt']['life_time']);
+            return new JWTEncoder($app['security.jwt']['secret_key'], $app['security.jwt']['life_time'], $app['security.jwt']['algorithm']);
         };
 
         $app['security.authentication.success_handler.secured'] = function () use ($app) {

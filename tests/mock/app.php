@@ -12,6 +12,7 @@ $app = new Silex\Application(['debug' => true]);
 $app['security.jwt'] = [
     'secret_key' => 'Very_secret_key',
     'life_time'  => 86400,
+    'algorithm'  => ['HS256'],
     'options'    => [
         'header_name' => 'X-Access-Token'
     ]
