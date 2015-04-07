@@ -21,7 +21,7 @@
     },
     "require": {
         "pimple/pimple": "3.0.*",
-        "firebase/php-jwt": "1.0.0",
+        "firebase/php-jwt": "2.0.0",
         "symfony/security": "~2.4"
     },
     "require-dev":{

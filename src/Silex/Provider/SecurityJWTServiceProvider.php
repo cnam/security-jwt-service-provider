@@ -18,13 +18,14 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         $app['security.jwt'] = array_merge([
             'secret_key' => 'default_secret_key',
             'life_time' => 86400,
+            'algorithm'  => ['HS256'],
             'options' => [
                 'header_name' => 'SECURITY_TOKEN_HEADER'
             ]
         ], $app['security.jwt']);
 
         $app['security.jwt.encoder'] = function() use ($app) {
-            return new JWTEncoder($app['security.jwt']['secret_key'], $app['security.jwt']['life_time']);
+            return new JWTEncoder($app['security.jwt']['secret_key'], $app['security.jwt']['life_time'], $app['security.jwt']['algorithm']);
         };
 
         $app['security.authentication.success_handler.secured'] = function () use ($app) {
