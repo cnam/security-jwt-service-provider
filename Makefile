@@ -8,6 +8,6 @@ clean:
 restart: clean start
 
 test:
-	@docker run -i -t -v `pwd`:/var/www/mockserver -w /var/www/mockserver --link securityjwtserviceprovider_proxy_1:mockserver.test leanlabs/php-behat php5 /vendor/bin/behat --format pretty
+	@docker run -i -t -v `pwd`:/var/www/mockserver -w /var/www/mockserver --link securityjwtserviceprovider_proxy_1:mockserver.test cnam/php-behat php5 /vendor/bin/behat --format pretty
 
 .PHONY: start test clean restart
