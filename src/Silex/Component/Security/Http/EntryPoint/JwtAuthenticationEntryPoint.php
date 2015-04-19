@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: cnam
- * Date: 19/04/15
- * Time: 17:23
- */
 
 namespace Silex\Component\Security\Http\EntryPoint;
-
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
