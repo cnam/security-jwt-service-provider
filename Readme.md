@@ -6,7 +6,7 @@ require silex
 
 > for usage stable version silex your need used security jwt service provider version in 1.*
 
-> for usage silex 2.0 version or not stable master your need usage taf 2.*
+> for usage silex 2.0 version or not stable master your need usage version 2.*
 
 ## Installation
 
