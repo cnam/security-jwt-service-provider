@@ -1,7 +1,8 @@
 {
     "name": "cnam/security-jwt-service-provider",
     "description": "Service Provider for usage jwt token for auth",
-    "minimum-stability": "beta",
+    "version": "1.0",
+    "minimum-stability": "stable",
     "authors": [
         {
             "name": "Anton Popov",
@@ -20,11 +21,11 @@
         }
     },
     "require": {
-        "pimple/pimple": "3.0.*",
+        "pimple/pimple": "~1.0",
         "firebase/php-jwt": "2.0.0",
-        "symfony/security": "~2.4"
+        "symfony/security": "~2.3,<3.0"
     },
     "require-dev":{
-        "silex/silex": "~2.0@dev"
+        "silex/silex": "1.3"
     }
 }
