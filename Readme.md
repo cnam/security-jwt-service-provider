@@ -2,15 +2,19 @@
 
 This provider usage with silex security 
 
-require silex 2.0
+require silex 
+
+> for usage stable version silex your need used security jwt service provider version in 1.*
+
+> for usage silex 2.0 version or not stable master your need usage taf 2.*
 
 ## Installation
 
->  composer require cnam/jwt-security-service-provider:0.0.6
+>  composer require cnam/jwt-security-service-provider:1.*
 
 Or add your composer.json
 
-> require "cnam/security-jwt-service-provider":"0.0.6"
+> require "cnam/security-jwt-service-provider":"1.*"
 
 
 ## Simple example
