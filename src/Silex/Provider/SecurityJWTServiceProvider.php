@@ -21,7 +21,8 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
             'life_time' => 86400,
             'algorithm'  => ['HS256'],
             'options' => [
-                'header_name' => 'SECURITY_TOKEN_HEADER'
+                'header_name' => 'SECURITY_TOKEN_HEADER',
+                'token_prefix' => null,
             ]
         ], $app['security.jwt']);
 

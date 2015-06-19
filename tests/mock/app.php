@@ -14,7 +14,8 @@ $app['security.jwt'] = [
     'life_time'  => 86400,
     'algorithm'  => ['HS256'],
     'options'    => [
-        'header_name' => 'X-Access-Token'
+        'header_name'  => 'X-Access-Token',
+        'token_prefix' => 'Bearer',
     ]
 ];
 $app['users'] = function () use ($app) {

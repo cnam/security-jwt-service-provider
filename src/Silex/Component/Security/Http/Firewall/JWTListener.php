@@ -51,7 +51,9 @@ class JWTListener implements ListenerInterface {
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        $requestToken = $request->headers->get($this->options['header_name'],'');
+        $requestToken = $this->getToken(
+            $request->headers->get($this->options['header_name'], null)
+        );
 
         if (!empty($requestToken)) {
             try {
@@ -67,5 +69,25 @@ class JWTListener implements ListenerInterface {
             } catch (\UnexpectedValueException $e) {
             }
         }
+    }
+
+    /**
+     * Convert token with prefix to normal token
+     *
+     * @param $requestToken
+     *
+     * @return string
+     */
+    protected function getToken($requestToken)
+    {
+        if (null === $requestToken && null !== $this->options['token_prefix']) {
+            return $requestToken;
+        }
+
+        if (false !== strpos($requestToken, $this->options['token_prefix'])) {
+            $requestToken = trim(str_replace($this->options['token_prefix'], "", $requestToken));
+        }
+
+        return $requestToken;
     }
 }
