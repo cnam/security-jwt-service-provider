@@ -45,7 +45,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
          * Class for usage custom listeners
          */
         $app['security.jwt.authentication_listener'] = function() use ($app) {
-            return new JWTListener($app['security'],
+            return new JWTListener($app['security.token_storage'],
                 $app['security.authentication_manager'],
                 $app['security.jwt.encoder'],
                 $app['security.jwt']['options']

@@ -5,19 +5,15 @@ namespace Silex\Component\Security\Http\Firewall;
 use HttpEncodingException;
 use Silex\Component\Security\Core\Encoder\TokenEncoderInterface;
 use Silex\Component\Security\Http\Token\JWTToken;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
 class JWTListener implements ListenerInterface {
 
     /**
-     * @var SecurityContextInterface
+     * @var TokenStorageInterface
      */
     protected $securityContext;
 
@@ -36,7 +32,7 @@ class JWTListener implements ListenerInterface {
      */
     protected $options;
 
-    public function __construct(SecurityContextInterface $securityContext,
+    public function __construct(TokenStorageInterface $securityContext,
                                 AuthenticationManagerInterface $authenticationManager,
                                 TokenEncoderInterface $encoder,
                                 array $options)
