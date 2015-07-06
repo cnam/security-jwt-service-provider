@@ -10,7 +10,7 @@ require silex
 
 ## Installation
 
->  composer require cnam/jwt-security-service-provider:1.*
+>  composer require cnam/security-jwt-service-provider:1.*
 
 Or add your composer.json
 
