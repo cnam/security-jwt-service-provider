@@ -57,7 +57,19 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
          * Class for usage custom user provider
          */
         $app['security.jwt.authentication_provider'] = function() use ($app) {
-            return new JWTProvider($app['users']);
+            foreach ($app['security.firewalls'] as $name => $firewall) {
+                if (isset($firewall['users'])){
+                    $users = $firewall['users'];
+                    break;
+                }
+                continue;
+            }
+
+            if (! isset($users)){
+                throw new \LogicException('Invalid or missing security.firewalls configuration for "users"');
+            }
+
+            return new JWTProvider($users);
         };
 
         $app['security.entry_point.jwt'] = function() use ($app) {
