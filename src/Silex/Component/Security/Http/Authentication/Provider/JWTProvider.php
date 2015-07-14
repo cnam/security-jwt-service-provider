@@ -33,12 +33,7 @@ class JWTProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-
-        if ($token instanceof JWTToken) {
-            $userName = $token->getTokenContext()->name;
-        } else {
-            $userName = $token->getUsername();
-        }
+        $userName = $token->getUsername();
 
         $user = $this->userProvider->loadUserByUsername($userName);
 

@@ -11,6 +11,16 @@ class JWTToken extends AbstractToken implements TokenInterface
     protected $tokenContext;
 
     /**
+     * Set username claim for JWT token
+     *
+     * @param $usernameClaim
+     */
+    public function setUsernameClaim($usernameClaim)
+    {
+        $this->usernameClaim = $usernameClaim;
+    }
+
+    /**
      * Set token context from JWT tokens
      *
      * @param $tokenContext
@@ -38,5 +48,16 @@ class JWTToken extends AbstractToken implements TokenInterface
     public function getCredentials()
     {
         return '';
+    }
+
+    /**
+     * Returns the user username.
+     *
+     * @return mixed The user username
+     */
+    public function getUsername()
+    {
+        return (isset($this->tokenContext->{$this->usernameClaim})) ?
+            $this->tokenContext->{$this->usernameClaim} : null;
     }
 }
