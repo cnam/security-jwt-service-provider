@@ -2,8 +2,8 @@
 
 namespace Silex\Provider;
 
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Silex\Application;
+use Silex\ServiceProviderInterface;
 use Silex\Component\Security\Core\Encoder\JWTEncoder;
 use Silex\Component\Security\Http\Authentication;
 use Silex\Component\Security\Http\Authentication\Provider\JWTProvider;
@@ -14,13 +14,14 @@ use Silex\Component\Security\Http\Logout\LogoutSuccessHandler;
 class SecurityJWTServiceProvider implements ServiceProviderInterface
 {
 
-    public function register(Container $app)
+    public function register(Application $app)
     {
-        $app['security.jwt'] = array_merge([
+        $app['security.jwt'] = array_replace_recursive([
             'secret_key' => 'default_secret_key',
             'life_time' => 86400,
             'algorithm'  => ['HS256'],
             'options' => [
+                'username_claim' => 'name',
                 'header_name' => 'SECURITY_TOKEN_HEADER',
                 'token_prefix' => null,
             ]
@@ -78,5 +79,16 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
                 'pre_auth'
             );
         });
+    }
+
+    /**
+     * Bootstraps the application.
+     *
+     * This method is called after all services are registered
+     * and should be used for "dynamic" configuration (whenever
+     * a service must be requested).
+     */
+    public function boot(Application $app)
+    {
     }
 }

@@ -6,11 +6,11 @@ require silex
 
 > for usage stable version silex your need used security jwt service provider version in 1.*
 
-> for usage silex 2.0 version or not stable master your need usage taf 2.*
+> for usage silex 2.0 version or not stable master your need usage version 2.*
 
 ## Installation
 
->  composer require cnam/jwt-security-service-provider:1.*
+>  composer require cnam/security-jwt-service-provider:1.*
 
 Or add your composer.json
 
@@ -39,8 +39,8 @@ $app['security.jwt'] = [
     'secret_key' => 'Very_secret_key',
     'life_time'  => 86400,
     'options'    => [
-        'header_name' => 'X-Access-Token',
-        // default null, option for usage normal oauth2 header
+        'username_claim' => 'sub', // default name, option specifying claim containing username
+        'header_name' => 'X-Access-Token', // default null, option for usage normal oauth2 header
         'token_prefix' => 'Bearer',
     ]
 ];

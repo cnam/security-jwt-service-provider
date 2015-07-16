@@ -61,6 +61,7 @@ class JWTListener implements ListenerInterface {
 
                 $token = new JWTToken();
                 $token->setTokenContext($decoded);
+                $token->setUsernameClaim($this->options['username_claim']);
 
                 $authToken = $this->authenticationManager->authenticate($token);
                 $this->securityContext->setToken($authToken);
