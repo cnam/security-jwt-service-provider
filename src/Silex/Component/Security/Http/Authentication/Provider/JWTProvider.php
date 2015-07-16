@@ -9,7 +9,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class JWTProvider implements AuthenticationProviderInterface {
+class JWTProvider implements AuthenticationProviderInterface
+{
 
     /**
      * @var UserProviderInterface
@@ -32,18 +33,13 @@ class JWTProvider implements AuthenticationProviderInterface {
      */
     public function authenticate(TokenInterface $token)
     {
-
-        if ($token instanceof JWTToken) {
-            $userName = $token->getTokenContext()->name;
-        } else {
-            $userName = $token->getUsername();
-        }
+        $userName = $token->getUsername();
 
         $user = $this->userProvider->loadUserByUsername($userName);
 
         if (null != $user) {
             $lastContext = $token->getTokenContext();
-            
+
             $token = new JWTToken($user->getRoles());
             $token->setTokenContext($lastContext);
             $token->setUser($user);

@@ -39,8 +39,8 @@ $app['security.jwt'] = [
     'secret_key' => 'Very_secret_key',
     'life_time'  => 86400,
     'options'    => [
-        'header_name' => 'X-Access-Token',
-        // default null, option for usage normal oauth2 header
+        'username_claim' => 'sub', // default name, option specifying claim containing username
+        'header_name' => 'X-Access-Token', // default null, option for usage normal oauth2 header
         'token_prefix' => 'Bearer',
     ]
 ];
