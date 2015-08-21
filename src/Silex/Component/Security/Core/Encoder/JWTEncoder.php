@@ -65,9 +65,9 @@ class JWTEncoder implements TokenEncoderInterface
         try {
             $data = \JWT::decode($token, $this->secretKey, $this->allowed_algs);
         } catch (\UnexpectedValueException $e) {
-            throw new \UnexpectedValueException();
+            throw new \UnexpectedValueException($e->getMessage());
         } catch (\DomainException $e) {
-            throw new \UnexpectedValueException();
+            throw new \UnexpectedValueException($e->getMessage());
         }
 
         if ($data->exp < time()) {
