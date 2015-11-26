@@ -7,5 +7,5 @@ services:
 
 install: make
 
-script: make start test clear
+script: make start test clean
 
