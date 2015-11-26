@@ -5,8 +5,7 @@ language: php
 services:
   - docker
 
-make:
-  - start
-  - test
-  - clear
+install: make
+
+build: make start test clear
 
