@@ -1,0 +1,10 @@
+sudo: required
+
+services:
+  - docker
+
+make:
+  - start
+  - test
+  - clear
+
