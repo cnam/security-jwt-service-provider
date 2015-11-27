@@ -2,7 +2,7 @@ help:
 	@echo "USAGE\n\n" \
 		"start - for running\n" \
 		"test  - for testing\n" \
-		"clear - for stop and removing\n"
+		"clean - for stop and removing\n"
 
 start:
 	@docker run --rm \

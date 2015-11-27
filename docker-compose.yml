@@ -5,8 +5,6 @@ proxy:
     - "./build/conf.d:/etc/nginx/conf.d"
   links:
     - mockserver:mockserver
-  ports:
-    - "80:80"
 
 mockserver:
   image: leanlabs/php

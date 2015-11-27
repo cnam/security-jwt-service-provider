@@ -1,0 +1,11 @@
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+install: make
+
+script: make start test clean
+

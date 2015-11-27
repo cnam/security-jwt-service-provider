@@ -1,5 +1,7 @@
 # Silex security jwt service provider
 
+[![Build Status](https://travis-ci.org/cnam/security-jwt-service-provider.svg?branch=master)](https://travis-ci.org/cnam/security-jwt-service-provider)
+
 This provider usage with silex security 
 
 require silex 

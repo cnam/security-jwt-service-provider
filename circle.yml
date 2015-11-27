@@ -1,0 +1,12 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - sudo pip install --upgrade docker-compose==1.3.0
+
+test:
+  override:
+    - make start test
+   
