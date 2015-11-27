@@ -8,5 +8,5 @@ dependencies:
 
 test:
   override:
-    - make start test clean
+    - make start test
    
