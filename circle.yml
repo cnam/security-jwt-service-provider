@@ -4,9 +4,9 @@ machine:
 
 dependencies:
   override:
-    - make start
+    - sudo pip install --upgrade docker-compose==1.3.0
 
 test:
   override:
-    - make test clean
+    - make start test clean
    
