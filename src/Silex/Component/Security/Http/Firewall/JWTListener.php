@@ -5,6 +5,7 @@ namespace Silex\Component\Security\Http\Firewall;
 use HttpEncodingException;
 use Silex\Component\Security\Core\Encoder\TokenEncoderInterface;
 use Silex\Component\Security\Http\Token\JWTToken;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -81,13 +82,16 @@ class JWTListener implements ListenerInterface {
      */
     protected function getToken($requestToken)
     {
-        if (null === $requestToken && null !== $this->options['token_prefix']) {
+        $prefix = $this->options['token_prefix'];
+        if (null === $prefix) {
             return $requestToken;
         }
 
-        if (false !== strpos($requestToken, $this->options['token_prefix'])) {
-            $requestToken = trim(str_replace($this->options['token_prefix'], "", $requestToken));
+        if (null === $requestToken) {
+            return $requestToken;
         }
+
+        $requestToken = trim(str_replace($prefix, "", $requestToken));
 
         return $requestToken;
     }
