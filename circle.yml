@@ -1,0 +1,12 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - make start
+
+test:
+  override:
+    - make test clean
+   
