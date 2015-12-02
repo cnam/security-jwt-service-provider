@@ -8,7 +8,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class JWTToken extends AbstractToken implements TokenInterface
 {
+    /**
+     * @var string token context from JWT tokens
+     */
     protected $tokenContext;
+
+    /**
+     * @var string username claim for JWT token
+     */
+    protected $usernameClaim;
 
     /**
      * Set username claim for JWT token
