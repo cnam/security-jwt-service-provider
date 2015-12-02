@@ -74,6 +74,12 @@ $app->post('/api/login', function(Request $request) use ($app){
     return $app->json($response, ($response['success'] == true ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST));
 });
 $app->get('/api/protected_resource', function() use ($app){
-    return $app->json(['hello' => 'world']);
+    $jwt = 'no';
+    $token = $app['security.token_storage']->getToken();
+    if ($token instanceof Silex\Component\Security\Http\Token\JWTToken) {
+        $jwt = 'yes';
+    }
+    $name = $token->getUser();
+    return $app->json(['hello' => $name->getUsername(), 'auth' => $jwt]);
 });
 $app->run();
