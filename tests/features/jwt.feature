@@ -15,7 +15,11 @@ Feature: JWT verification
     """
     {
      "hello":"admin",
-     "auth":"yes"
+     "username":"admin",
+     "auth":"yes",
+     "granted":"yes",
+     "granted_user":"no",
+     "granted_super":"yes"
     }
     """
 

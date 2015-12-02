@@ -7,6 +7,9 @@ use Silex\Component\Security\Http\Token\JWTToken;
 use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Role\SwitchUserRole;
+use Symfony\Component\Security\Core\User\UserCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class JWTProvider implements AuthenticationProviderInterface
@@ -16,10 +19,20 @@ class JWTProvider implements AuthenticationProviderInterface
      * @var UserProviderInterface
      */
     protected $userProvider;
+    protected $providerKey;
 
-    public function __construct($userProvider)
+    /**
+     * Constructor.
+     *
+     * @param UserProviderInterface $userProvider An UserProviderInterface instance
+     * @param UserCheckerInterface  $userChecker  An UserCheckerInterface instance
+     * @param string                $providerKey  The provider key
+     */
+    public function __construct(UserProviderInterface $userProvider, UserCheckerInterface $userChecker, $providerKey)
     {
         $this->userProvider = $userProvider;
+        $this->userChecker = $userChecker;
+        $this->providerKey = $providerKey;
     }
 
     /**
@@ -33,21 +46,23 @@ class JWTProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        $userName = $token->getUsername();
-
-        $user = $this->userProvider->loadUserByUsername($userName);
-
-        if (null != $user) {
-            $lastContext = $token->getTokenContext();
-
-            $token = new JWTToken($user->getRoles());
-            $token->setTokenContext($lastContext);
-            $token->setUser($user);
-
-            return $token;
+        if (!$this->supports($token)) {
+            return;
         }
 
-        throw new AuthenticationException('JWT auth failed');
+        if (!$user = $token->getUser()) {
+            throw new AuthenticationException('JWT auth failed');
+        }
+
+        $user = $this->userProvider->loadUserByUsername($user);
+        $this->userChecker->checkPostAuth($user);
+        $token = new JWTToken($user,
+            $token->getCredentials(),
+            $this->providerKey,
+            $this->getRoles($user, $token)
+        );
+
+        return $token;
     }
 
     /**
@@ -60,5 +75,28 @@ class JWTProvider implements AuthenticationProviderInterface
     public function supports(TokenInterface $token)
     {
         return $token instanceof JWTToken;
+    }
+
+    /**
+     * Retrieves roles from user and appends SwitchUserRole if original token contained one.
+     *
+     * @param UserInterface  $user  The user
+     * @param TokenInterface $token The token
+     *
+     * @return array The user roles
+     */
+    private function getRoles(UserInterface $user, TokenInterface $token)
+    {
+        $roles = $user->getRoles();
+
+        foreach ($token->getRoles() as $role) {
+            if ($role instanceof SwitchUserRole) {
+                $roles[] = $role;
+
+                break;
+            }
+        }
+
+        return $roles;
     }
 }

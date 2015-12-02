@@ -21,7 +21,7 @@ $app['security.jwt'] = [
 $app['users'] = function () use ($app) {
     $users = [
         'admin' => array(
-            'roles' => array('ROLE_ADMIN'),
+            'roles' => array('ROLE_ADMIN', 'ROLE_SUPER_ADMIN'),
             // raw password is foo
             'password' => '5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==',
             'enabled' => true
@@ -73,13 +73,37 @@ $app->post('/api/login', function(Request $request) use ($app){
     }
     return $app->json($response, ($response['success'] == true ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST));
 });
+
 $app->get('/api/protected_resource', function() use ($app){
     $jwt = 'no';
     $token = $app['security.token_storage']->getToken();
     if ($token instanceof Silex\Component\Security\Http\Token\JWTToken) {
         $jwt = 'yes';
     }
-    $name = $token->getUser();
-    return $app->json(['hello' => $name->getUsername(), 'auth' => $jwt]);
+    $granted = 'no';
+    if($app['security.authorization_checker']->isGranted('ROLE_ADMIN')) {
+        $granted = 'yes';
+    }
+
+    $granted_user = 'no';
+    if($app['security.authorization_checker']->isGranted('ROLE_USER')) {
+        $granted_user = 'yes';
+    }
+
+    $granted_super = 'no';
+    if($app['security.authorization_checker']->isGranted('ROLE_SUPER_ADMIN')) {
+        $granted_super = 'yes';
+    }
+
+    $user = $token->getUser();
+    return $app->json([
+        'hello' => $token->getUsername(),
+        'username' => $user->getUsername(),
+        'auth' => $jwt,
+        'granted' => $granted,
+        'granted_user' => $granted_user,
+        'granted_super' => $granted_super,
+    ]);
 });
+
 $app->run();
