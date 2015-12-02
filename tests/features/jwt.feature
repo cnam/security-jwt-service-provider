@@ -14,7 +14,12 @@ Feature: JWT verification
     And response should contain json:
     """
     {
-     "hello":"world"
+     "hello":"admin",
+     "username":"admin",
+     "auth":"yes",
+     "granted":"yes",
+     "granted_user":"no",
+     "granted_super":"yes"
     }
     """
 

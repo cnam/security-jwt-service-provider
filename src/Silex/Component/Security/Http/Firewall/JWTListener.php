@@ -8,6 +8,7 @@ use Silex\Component\Security\Http\Token\JWTToken;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 
@@ -33,15 +34,22 @@ class JWTListener implements ListenerInterface {
      */
     protected $options;
 
+    /**
+     * @var string
+     */
+    protected $providerKey;
+
     public function __construct(TokenStorageInterface $securityContext,
                                 AuthenticationManagerInterface $authenticationManager,
                                 TokenEncoderInterface $encoder,
-                                array $options)
+                                array $options,
+                                $providerKey)
     {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
         $this->encode = $encoder;
         $this->options = $options;
+        $this->providerKey = $providerKey;
     }
 
     /**
@@ -59,10 +67,16 @@ class JWTListener implements ListenerInterface {
         if (!empty($requestToken)) {
             try {
                 $decoded = $this->encode->decode($requestToken);
+                $user = null;
+                if (isset($decoded->{$this->options['username_claim']})) {
+                    $user = $decoded->{$this->options['username_claim']};
+                }
 
-                $token = new JWTToken();
-                $token->setTokenContext($decoded);
-                $token->setUsernameClaim($this->options['username_claim']);
+                $token = new JWTToken(
+                    $user,
+                    $requestToken,
+                    $this->providerKey
+                );
 
                 $authToken = $this->authenticationManager->authenticate($token);
                 $this->securityContext->setToken($authToken);

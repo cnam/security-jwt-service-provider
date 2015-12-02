@@ -5,6 +5,8 @@ namespace Silex\Component\Security\Http\Token;
 
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class JWTToken extends AbstractToken implements TokenInterface
 {
@@ -19,33 +21,20 @@ class JWTToken extends AbstractToken implements TokenInterface
     protected $usernameClaim;
 
     /**
-     * Set username claim for JWT token
+     * Constructor.
      *
-     * @param $usernameClaim
+     * @param string|object            $user        The user
+     * @param mixed                    $context The user credentials
+     * @param string                   $providerKey The provider key
+     * @param RoleInterface[]|string[] $roles       An array of roles
      */
-    public function setUsernameClaim($usernameClaim)
-    {
-        $this->usernameClaim = $usernameClaim;
-    }
+    public function __construct($user, $context, $providerKey, array $roles = array()) {
+        parent::__construct($roles);
+        $this->setUser($user);
+        $this->credentials = $context;
+        $this->providerKey = $providerKey;
 
-    /**
-     * Set token context from JWT tokens
-     *
-     * @param $tokenContext
-     */
-    public function setTokenContext($tokenContext)
-    {
-        $this->tokenContext = $tokenContext;
-    }
-
-    /**
-     * Return token context
-     *
-     * @return mixed
-     */
-    public function getTokenContext()
-    {
-        return $this->tokenContext;
+        parent::setAuthenticated(count($roles) > 0);
     }
 
     /**
@@ -55,17 +44,6 @@ class JWTToken extends AbstractToken implements TokenInterface
      */
     public function getCredentials()
     {
-        return '';
-    }
-
-    /**
-     * Returns the user username.
-     *
-     * @return mixed The user username
-     */
-    public function getUsername()
-    {
-        return (isset($this->tokenContext->{$this->usernameClaim})) ?
-            $this->tokenContext->{$this->usernameClaim} : null;
+        return $this->credentials;
     }
 }
