@@ -1,6 +1,7 @@
 # Silex security jwt service provider
 
 [![Build Status](https://travis-ci.org/cnam/security-jwt-service-provider.svg?branch=master)](https://travis-ci.org/cnam/security-jwt-service-provider)
+[![Latest Stable Version](https://poser.pugx.org/cnam/security-jwt-service-provider/v/stable)](https://packagist.org/packages/cnam/security-jwt-service-provider) [![Total Downloads](https://poser.pugx.org/cnam/security-jwt-service-provider/downloads)](https://packagist.org/packages/cnam/security-jwt-service-provider) [![Latest Unstable Version](https://poser.pugx.org/cnam/security-jwt-service-provider/v/unstable)](https://packagist.org/packages/cnam/security-jwt-service-provider) [![License](https://poser.pugx.org/cnam/security-jwt-service-provider/license)](https://packagist.org/packages/cnam/security-jwt-service-provider)
 
 This provider usage with silex security 
 
