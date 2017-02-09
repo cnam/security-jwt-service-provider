@@ -46,10 +46,6 @@ class JWTProvider implements AuthenticationProviderInterface
      */
     public function authenticate(TokenInterface $token)
     {
-        if (!$this->supports($token)) {
-            return;
-        }
-
         if (!$user = $token->getUser()) {
             throw new AuthenticationException('JWT auth failed');
         }
