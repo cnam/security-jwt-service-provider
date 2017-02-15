@@ -10,11 +10,14 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 $app = new Silex\Application(['debug' => true]);
 
 $app['security.jwt'] = [
-    'secret_key' => 'Very_secret_key',
+    'secret_key' => [
+        'private' => file_get_contents('../private.key'),
+        'public'  => file_get_contents('../public.key'),
+    ],
     'life_time'  => 86400,
-    'algorithm'  => ['HS256'],
+    'algorithm'  => 'RS256',
     'options'    => [
-        'header_name'  => 'X-Access-Token',
+        'header_name'  => 'Auth',
         'token_prefix' => 'Bearer',
     ]
 ];
