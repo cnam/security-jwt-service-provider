@@ -19,7 +19,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
         $app['security.jwt'] = array_replace_recursive([
             'secret_key' => 'default_secret_key',
             'life_time' => 86400,
-            'algorithm'  => ['HS256'],
+            'algorithm'  => 'HS256',
             'options' => [
                 'username_claim' => 'name',
                 'header_name' => 'SECURITY_TOKEN_HEADER',
