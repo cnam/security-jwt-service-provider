@@ -30,13 +30,13 @@ class JWTEncoder implements TokenEncoderInterface
      *
      * @var string
      */
-    private $allowed_algs;
+    private $algorithm;
 
-    public function __construct($secretKey, $lifeTime, $allowed_algs)
+    public function __construct($secretKey, $lifeTime, $algorithm)
     {
         $this->secretKey = $secretKey;
         $this->lifeTime = $lifeTime;
-        $this->allowed_algs = $allowed_algs;
+        $this->algorithm = $algorithm;
     }
 
     /**
@@ -50,7 +50,14 @@ class JWTEncoder implements TokenEncoderInterface
     {
         $data['exp'] = time() + $this->lifeTime;
 
-       return JWT::encode($data, $this->secretKey);
+        if (is_array($this->secretKey) &&
+            array_key_exists('private', $this->secretKey) &&
+            array_key_exists('public', $this->secretKey) &&
+            $this->algorithm == 'RS256') {
+            return JWT::encode($data, $this->secretKey['private'], $this->algorithm);
+        }
+
+        return JWT::encode($data, $this->secretKey, $this->algorithm);
     }
 
     /**
@@ -64,7 +71,11 @@ class JWTEncoder implements TokenEncoderInterface
     public function decode($token)
     {
         try {
-            $data = JWT::decode($token, $this->secretKey, $this->allowed_algs);
+            if (is_array($this->secretKey) && $this->algorithm == 'RS256') {
+                $data = JWT::decode($token, $this->secretKey['public'], [$this->algorithm]);
+            } else {
+                $data = JWT::decode($token, $this->secretKey, [$this->algorithm]);
+            }
         } catch (\UnexpectedValueException $e) {
             throw new \UnexpectedValueException($e->getMessage());
         } catch (\DomainException $e) {
